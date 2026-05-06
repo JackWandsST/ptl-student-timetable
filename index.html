@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pathways Residential Conference 2026 — Student Timetable</title>
+<style>
+  /* Figtree from Google Fonts (free/open-source per ST brand guide) */
+  @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
+
+  /*
+   * National 2 Condensed Bold is a paid font (Klim type foundry).
+   * We load it via Google Fonts fallback stack, but use a CSS @font-face
+   * stub so that if the user has it installed locally it will be picked up.
+   * For the web we fall back to Barlow Condensed Bold which is the closest
+   * free alternative that matches the ST condensed-bold headline style.
+   */
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&display=swap');
+
+  @font-face {
+    font-family: 'National 2 Condensed';
+    font-weight: 700;
+    font-style: normal;
+    src: local('National2Condensed-Bold'), local('National 2 Condensed Bold');
+    /* If the font is not installed locally, Barlow Condensed will be used via the stack below */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* ST Brand palette — exact hex values from brand guide */
+    --navy:        #064891;
+    --navy-dark:   #042f5e;
+    --blue-mid:    #1f63ad;
+    --blue-light:  #94c4f0;
+    --blue-pale:   #c9e8ff;
+    --teal:        #008f8a;
+    --teal-mid:    #70ccc7;
+    --teal-pale:   #a1d9d6;
+    --coral:       #fa5e61;
+    --coral-mid:   #ff9ea1;
+    --coral-pale:  #ffcccf;
+    --yellow:      #ffba3b;
+    --yellow-pale: #ffdea3;
+    --green:       #59a34a;
+    --green-pale:  #c2e8bf;
+    --purple:      #948cd4;
+    --purple-pale: #e0d1f2;
+    --grey-light:  #ececec;
+    --grey-mid:    #c6c6c5;
+    --white:       #ffffff;
+
+    /* Semantic tokens */
+    --bg:          #f5f9ff;  /* soft tint of blue-pale for page bg */
+    --text:        #0a1a2f;
+    --text-muted:  #3a5a7a;
+    --border:      #c9e8ff;
+
+    /* Category colours mapping to ST palette */
+    --prog-bg:     var(--blue-pale);
+    --prog-text: var(--navy-dark);
+    --prog-accent: var(--navy-dark);
+    --log-bg: var(--purple-pale);
+    --log-text: var(--navy-dark);
+    --log-accent: var(--navy-dark);
+    --social-bg: var(--green-pale);
+    --social-text: var(--navy-dark);
+    --social-accent: var(--navy-dark);
+    --break-bg: var(--grey-light);
+    --break-text: var(--navy-dark);
+    --break-accent: var(--navy-dark);
+  }
+
+  body {
+    font-family: 'Figtree', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HEADER ───────────────────────────────────── */
+  .page-header {
+    background: var(--navy);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative ST-style starburst shape (top-right) */
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: var(--yellow);
+    clip-path: polygon(50% 0%,55% 18%,72% 8%,65% 25%,84% 22%,73% 37%,92% 40%,78% 51%,92% 59%,76% 65%,84% 79%,67% 79%,65% 95%,52% 85%,44% 100%,40% 82%,24% 88%,27% 71%,10% 72%,18% 57%,4% 51%,17% 41%,6% 28%,23% 28%,18% 12%,34% 18%,35% 2%,48% 13%);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  /* Decorative chevron shape (bottom-left, ST upward-trajectory shape) */
+  .page-header::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: 24px;
+    width: 80px; height: 60px;
+    background: var(--teal-mid);
+    clip-path: polygon(50% 0%, 100% 60%, 78% 60%, 78% 100%, 22% 100%, 22% 60%, 0% 60%);
+    opacity: 0.22;
+    pointer-events: none;
+  }
+
+  .header-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2.25rem 1.5rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo-box {
+    border: 2.5px solid white;
+    padding: 5px 7px 3px;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    flex-shrink: 0;
+  }
+
+  .logo-box span {
+    font-family: 'National 2 Condensed', 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    color: white;
+    text-transform: uppercase;
+  }
+
+  .logo-swash {
+    width: 28px; height: 22px;
+    border: 2px solid white;
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    transform: rotate(-10deg) translateY(2px);
+    border-top-color: transparent;
+    margin-left: 2px;
+  }
+
+  .header-inner h1 {
+    /* ST primary font: National 2 Condensed Bold, fallback Barlow Condensed */
+    font-family: 'National 2 Condensed', 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    font-weight: 700;
+    font-size: clamp(26px, 5vw, 38px);
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .header-meta {
+    font-family: 'Figtree', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.78);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 0;
+  }
+
+  .header-meta .sep { margin: 0 8px; opacity: 0.5; }
+
+  /* ── CONTENT ──────────────────────────────────── */
+  .content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
+  }
+
+  /* ── LEGEND ───────────────────────────────────── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .leg { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); font-weight: 500; }
+  .leg-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── TABS ─────────────────────────────────────── */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 8px 18px;
+    border-radius: 4px;
+    border: 1.5px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Figtree', sans-serif;
+    cursor: pointer;
+    background: white;
+    color: var(--text-muted);
+    transition: all .15s ease;
+    text-decoration: none;
+    display: inline-block;
+    letter-spacing: 0.01em;
+  }
+
+  .tab:hover {
+    border-color: var(--navy);
+    color: var(--navy);
+    background: var(--blue-pale);
+  }
+
+  .tab.active {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+
+  /* ── DAY PANELS ───────────────────────────────── */
+  .day-panel { display: none; }
+  .day-panel.active { display: block; }
+
+  .day-heading {
+    font-family: 'National 2 Condensed', 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    color: var(--navy);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    border-left: 4px solid var(--yellow);
+    padding-left: 10px;
+  }
+
+  /* ── SCHEDULE ROWS ────────────────────────────── */
+  .schedule { display: flex; flex-direction: column; gap: 5px; }
+
+  .row {
+    display: grid;
+    grid-template-columns: 68px 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .time {
+    font-family: 'Figtree', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy-dark);
+    text-align: right;
+    padding: 13px 12px 12px 0;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+
+  .pill {
+    border-radius: 6px;
+    padding: 11px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .pill-name {
+    font-family: 'Figtree', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .pill-detail {
+    font-family: 'Figtree', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+    opacity: 1;
+  }
+
+  /* Category colour treatments — all using ST brand palette */
+  .t-prog { background: var(--prog-bg); }
+  .t-prog .pill-name { color: var(--prog-text); }
+  .t-prog .pill-detail { color: var(--prog-accent); }
+
+  .t-log { background: var(--log-bg); }
+  .t-log .pill-name { color: var(--log-text); }
+  .t-log .pill-detail { color: var(--log-accent); }
+
+  .t-social { background: var(--social-bg); }
+  .t-social .pill-name { color: var(--social-text); }
+  .t-social .pill-detail { color: var(--social-accent); }
+
+  .t-break { background: var(--break-bg); }
+  .t-break .pill-name { color: var(--break-text); }
+  .t-break .pill-detail { color: var(--break-accent); }
+
+  /* ── FOOTER ───────────────────────────────────── */
+  .footer {
+    margin-top: 2.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--navy);
+    border-radius: 8px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 13px;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .footer a { color: white; text-decoration: underline; font-weight: 600; }
+
+  .footer a:hover { text-decoration: underline; }
+
+  /* ── RESPONSIVE ───────────────────────────────── */
+  @media (max-width: 520px) {
+    .tabs { flex-wrap: wrap; }
+    .row  { grid-template-columns: 52px 1fr; }
+    .header-inner h1 { font-size: 22px; }
+  }
+
+  /* ── PRINT ────────────────────────────────────── */
+  @media print {
+    .tabs { display: none; }
+    .day-panel { display: block !important; page-break-after: always; }
+    .day-panel:last-child { page-break-after: avoid; }
+    body { background: white; }
+    .page-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .pill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+
+/* Real Sutton Trust logo */
+.logo-lockup{margin-bottom:14px;}
+.st-logo{height:56px;width:auto;display:block;}
+</style>
+</head>
+<body>
+<div class="page-header">
+<div class="header-inner">
+<div class="logo-lockup"><img alt="The Sutton Trust" class="st-logo" src="data:image/png;base64,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"/></div>
+<h1>Pathways Residential Conference 2026</h1>
+<div class="header-meta">
+<span>Pathways to Law</span>
+<span class="sep">·</span>
+<span>University of Warwick</span>
+<span class="sep">·</span>
+<span>4–6 August 2026</span>
+</div>
+</div>
+</div>
+<div class="content">
+<div class="legend">
+<div class="leg"><div class="leg-dot" style="background:#1f63ad"></div>Programme session</div>
+<div class="leg"><div class="leg-dot" style="background:#948cd4"></div>Travel &amp; logistics</div>
+<div class="leg"><div class="leg-dot" style="background:#59a34a"></div>Social &amp; evening</div>
+<div class="leg"><div class="leg-dot" style="background:#c6c6c5"></div>Break</div>
+</div>
+<div class="tabs">
+<span class="tab active" onclick="show('d1',this)">Tuesday 7 Jul — Day 1</span>
+<span class="tab" onclick="show('d2',this)">Wednesday 8 Jul — Day 2</span>
+<span class="tab" onclick="show('d3',this)">Thursday 9 Jul — Day 3</span>
+</div>
+<!-- DAY 1 -->
+<div class="day-panel active" id="d1">
+<div class="day-heading">Day 1 — Arrival &amp; Welcome</div>
+<div class="schedule" id="schedule-d1"></div>
+</div>
+<!-- DAY 2 -->
+<div class="day-panel" id="d2">
+<div class="day-heading">Day 2 — Public Speaking &amp; Group Project</div>
+<div class="schedule" id="schedule-d2"></div>
+</div>
+<!-- DAY 3 -->
+<div class="day-panel" id="d3">
+<div class="day-heading">Day 3 — Employer Sessions &amp; Departure</div>
+<div class="schedule" id="schedule-d3"></div>
+</div>
+<div class="footer">
+<span>Pathways Residential Conference 2026  ·  The Sutton Trust</span>
+<span>Questions? Email <a href="mailto:pathways@suttontrust.com">pathways@suttontrust.com</a></span>
+</div>
+</div>
+<script>// Timetable data generated from PtL_Master_schedule_2026.xlsm
+const timetable = {
+  "d1": [
+    {
+      "time": "11:30",
+      "type": "log",
+      "name": "Student arrival & registration",
+      "detail": "Ramphal / Coach Park / Station"
+    },
+    {
+      "time": "13:30",
+      "type": "prog",
+      "name": "Welcome session",
+      "detail": "Ramphal LT"
+    },
+    {
+      "time": "14:00",
+      "type": "prog",
+      "name": "Opening talk – Louis from 7PK",
+      "detail": "Ramphal LT"
+    },
+    {
+      "time": "14:45",
+      "type": "prog",
+      "name": "Introductions in flat groups",
+      "detail": "0.14 / 1.03 / 1.04 / 1.13 / 1.15"
+    },
+    {
+      "time": "15:30",
+      "type": "break",
+      "name": "Break",
+      "detail": "Ramphal Foyer"
+    },
+    {
+      "time": "15:45",
+      "type": "prog",
+      "name": "ABC Introduction – Reflection as a skill",
+      "detail": "Ramphal LT"
+    },
+    {
+      "time": "16:30",
+      "type": "prog",
+      "name": "Commercial awareness lecture",
+      "detail": "Ramphal LT"
+    },
+    {
+      "time": "17:00",
+      "type": "log",
+      "name": "Check-in to accommodation",
+      "detail": "Rm 0.12 → Jack Martin"
+    },
+    {
+      "time": "18:30",
+      "type": "log",
+      "name": "Walk to Rootes",
+      "detail": "Jack Martin → Rootes"
+    },
+    {
+      "time": "18:45",
+      "type": "social",
+      "name": "Dinner",
+      "detail": "Rootes Restaurant"
+    },
+    {
+      "time": "20:00",
+      "type": "social",
+      "name": "Evening social activities",
+      "detail": "Student Union"
+    },
+    {
+      "time": "22:00",
+      "type": "log",
+      "name": "Walk back to accommodation",
+      "detail": "Jack Martin"
+    }
+  ],
+  "d2": [
+    {
+      "time": "07:45",
+      "type": "log",
+      "name": "Wake up call & flat checks",
+      "detail": "Jack Martin"
+    },
+    {
+      "time": "08:00",
+      "type": "log",
+      "name": "Walk to Rootes",
+      "detail": "Jack Martin → Rootes"
+    },
+    {
+      "time": "08:10",
+      "type": "log",
+      "name": "Breakfast & check-in",
+      "detail": "Rootes Restaurant"
+    },
+    {
+      "time": "08:50",
+      "type": "log",
+      "name": "Walk to Ramphal",
+      "detail": "Rootes → Ramphal"
+    },
+    {
+      "time": "09:00",
+      "type": "prog",
+      "name": "Introduction to the day",
+      "detail": "Ramphal LT"
+    },
+    {
+      "time": "09:15",
+      "type": "prog",
+      "name": "Debating Workshop – English Speaking Union",
+      "detail": "0.12 / 0.14 / 1.03 / 1.04 / 1.13"
+    },
+    {
+      "time": "11:45",
+      "type": "break",
+      "name": "Break – drinks & biscuits",
+      "detail": "Ramphal Foyer"
+    },
+    {
+      "time": "12:00",
+      "type": "prog",
+      "name": "Networking Skills with the Speakers Trust",
+      "detail": "Ramphal LT"
+    },
+    {
+      "time": "13:00",
+      "type": "log",
+      "name": "Lunch",
+      "detail": "Ramphal Foyer"
+    },
+    {
+      "time": "14:00",
+      "type": "prog",
+      "name": "Law Group Project with Tozers",
+      "detail": "Ramphal LT"
+       },
+    {
+      "time": "16:00",
+      "type": "prog",
+      "name": "Group Project Wrap and Reflect",
+      "detail": "LT"
+    },
+    {
+      "time": "16:15",
+      "type": "log",
+      "name": "Return to accommodation",
+      "detail": "Ramphal → Jack Martin"
+    },
+    {
+      "time": "17:00",
+      "type": "social",
+      "name": "Sports & social activities",
+      "detail": "Jack Martin / Cryfield Sport Pavilion"
+    },
+    {
+      "time": "18:30",
+      "type": "log",
+      "name": "Wrap-up & walk to BBQ",
+      "detail": "Jack Martin"
+    },
+    {
+      "time": "18:45",
+      "type": "log",
+      "name": "Walk to BBQ Dinner",
+      "detail": "Jack Martin → Red Square"
+    },
+    {
+      "time": "19:00",
+      "type": "social",
+      "name": "BBQ Dinner",
+      "detail": "Rootes"
+    },
+    {
+      "time": "20:00",
+      "type": "social",
+      "name": "Evening Social Activities",
+      "detail": "Student Union"
+    },
+    {
+      "time": "22:00",
+      "type": "log",
+      "name": "Walk back to accommodation",
+      "detail": "Jack Martin"
+    }
+  ],
+  "d3": [
+    {
+      "time": "07:45",
+      "type": "log",
+      "name": "Wake up call – last day!",
+      "detail": "Jack Martin"
+    },
+    {
+      "time": "07:50",
+      "type": "log",
+      "name": "Breakfast & check-in",
+      "detail": "Rootes Restaurant"
+     },
+    {
+      "time": "08:45",
+      "type": "log",
+      "name": "Walk to Ramphal / bag drop",
+      "detail": "Ramphal"
+    },
+    {
+      "time": "09:00",
+      "type": "prog",
+      "name": "Intro to the day",
+      "detail": "Ramphal LT"
+    },
+    {
+      "time": "09:15",
+      "type": "prog",
+      "name": "Meet the Professionals panel",
+      "detail": "Ramphal LT"
+    },
+    {
+      "time": "10:05",
+      "type": "break",
+      "name": "Break – network with panellists",
+      "detail": "Ramphal Foyer"
+    },
+    {
+      "time": "10:20",
+      "type": "prog",
+      "name": "Industry spotlight session 1",
+      "detail": "0.14 / 1.03 / 1.04 / 1.13 / 1.15 / LT"
+    },
+    {
+      "time": "11:05",
+      "type": "break",
+      "name": "Room swap",
+      "detail": ""
+    },
+    {
+      "time": "11:15",
+      "type": "prog",
+      "name": "Industry spotlight session 2",
+      "detail": "0.14 / 1.03 / 1.04 / 1.13 / 1.15 / LT"
+    },
+    {
+      "time": "12:00",
+      "type": "log",
+      "name": "Lunch & group photo",
+      "detail": "Ramphal Foyer"
+    },
+    {
+      "time": "12:45",
+      "type": "prog",
+      "name": "Careers Speed Networkinge",
+      "detail": "Learning Grid (ground floor, Rootes)"
+    },
+    {
+      "time": "13:45",
+      "type": "break",
+      "name": "Break",
+      "detail": "Ramphal Foyer"
+    },
+    {
+      "time": "14:00",
+      "type": "prog",
+      "name": "Goodbye session",
+      "detail": "Ramphal LT"
+    },
+    {
+      "time": "14:10",
+      "type": "prog",
+      "name": "Reflection & certificates",
+      "detail": "Warwick: 1.03 / Leicester: 1.04 / Liverpool: 1.13 / LSE: LT"
+    },
+    {
+      "time": "14:40",
+      "type": "log",
+      "name": "Depart – coaches",
+      "detail": "Ramphal 0.12"
+    }
+  ]
+};
+
+function renderDay(dayId){
+  const el = document.getElementById(`schedule-${dayId}`);
+  if(!el) return;
+  el.innerHTML = (timetable[dayId]||[]).map(item => `
+    <div class="row">
+      <div class="time">${item.time}</div>
+      <div class="pill t-${item.type}">
+        <div class="pill-name">${item.name}</div>
+        <div class="pill-detail">${item.detail||''}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function show(id, tab){
+  document.querySelectorAll('.day-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  tab.classList.add('active');
+}
+
+['d1','d2','d3'].forEach(renderDay);
+</script>
+</body>
+</html>
