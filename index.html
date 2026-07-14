@@ -6,464 +6,435 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Pathways Residential Conference 2026 — Student Timetable</title>
 <style>
-  /* Figtree from Google Fonts (free/open-source per ST brand guide) */
-  @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
+/* Figtree from Google Fonts (free/open-source per ST brand guide) */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
 
-  /*
-   * National 2 Condensed Bold is a paid font (Klim type foundry).
-   * We load it via Google Fonts fallback stack, but use a CSS @font-face
-   * stub so that if the user has it installed locally it will be picked up.
-   * For the web we fall back to Barlow Condensed Bold which is the closest
-   * free alternative that matches the ST condensed-bold headline style.
-   */
-  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&display=swap');
+/*
+  * National 2 Condensed Bold is a paid font (Klim type foundry).
+  * We load it via Google Fonts fallback stack, but use a CSS @font-face
+  * stub so that if the user has it installed locally it will be picked up.
+  * For the web we fall back to Barlow Condensed Bold which is the closest
+  * free alternative that matches the ST condensed-bold headline style.
+  */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&display=swap');
 
-  @font-face {
-    font-family: 'National 2 Condensed';
-    font-weight: 700;
-    font-style: normal;
-    src: local('National2Condensed-Bold'), local('National 2 Condensed Bold');
-    /* If the font is not installed locally, Barlow Condensed will be used via the stack below */
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    /* ST Brand palette — exact hex values from brand guide */
-    --navy:        #064891;
-    --navy-dark:   #042f5e;
-    --blue-mid:    #1f63ad;
-    --blue-light:  #94c4f0;
-    --blue-pale:   #c9e8ff;
-    --teal:        #008f8a;
-    --teal-mid:    #70ccc7;
-    --teal-pale:   #a1d9d6;
-    --coral:       #fa5e61;
-    --coral-mid:   #ff9ea1;
-    --coral-pale:  #ffcccf;
-    --yellow:      #ffba3b;
-    --yellow-pale: #ffdea3;
-    --green:       #59a34a;
-    --green-pale:  #c2e8bf;
-    --purple:      #948cd4;
-    --purple-pale: #e0d1f2;
-    --grey-light:  #ececec;
-    --grey-mid:    #c6c6c5;
-    --white:       #ffffff;
-
-    /* Semantic tokens */
-    --bg:          #f5f9ff;  /* soft tint of blue-pale for page bg */
-    --text:        #0a1a2f;
-    --text-muted:  #3a5a7a;
-    --border:      #c9e8ff;
-
-    /* Category colours mapping to ST palette */
-    --prog-bg:     var(--blue-pale);
-    --prog-text: var(--navy-dark);
-    --prog-accent: var(--navy-dark);
-    --log-bg: var(--purple-pale);
-    --log-text: var(--navy-dark);
-    --log-accent: var(--navy-dark);
-    --social-bg: var(--green-pale);
-    --social-text: var(--navy-dark);
-    --social-accent: var(--navy-dark);
-    --break-bg: var(--grey-light);
-    --break-text: var(--navy-dark);
-    --break-accent: var(--navy-dark);
-  }
-
-  body {
-    font-family: 'Figtree', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 0;
-  }
-
-  /* ── HEADER ───────────────────────────────────── */
-  .page-header {
-    background: var(--navy);
-    color: white;
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Decorative ST-style starburst shape (top-right) */
-  .page-header::before {
-    content: '';
-    position: absolute;
-    top: -60px; right: -60px;
-    width: 200px; height: 200px;
-    background: var(--yellow);
-    clip-path: polygon(50% 0%,55% 18%,72% 8%,65% 25%,84% 22%,73% 37%,92% 40%,78% 51%,92% 59%,76% 65%,84% 79%,67% 79%,65% 95%,52% 85%,44% 100%,40% 82%,24% 88%,27% 71%,10% 72%,18% 57%,4% 51%,17% 41%,6% 28%,23% 28%,18% 12%,34% 18%,35% 2%,48% 13%);
-    opacity: 0.18;
-    pointer-events: none;
-  }
-
-  /* Decorative chevron shape (bottom-left, ST upward-trajectory shape) */
-  .page-header::after {
-    content: '';
-    position: absolute;
-    bottom: -20px; left: 24px;
-    width: 80px; height: 60px;
-    background: var(--teal-mid);
-    clip-path: polygon(50% 0%, 100% 60%, 78% 60%, 78% 100%, 22% 100%, 22% 60%, 0% 60%);
-    opacity: 0.22;
-    pointer-events: none;
-  }
-
-  .header-inner {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 2.25rem 1.5rem 2rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  .logo-box {
-    border: 2.5px solid white;
-    padding: 5px 7px 3px;
-    line-height: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-    flex-shrink: 0;
-  }
-
-  .logo-box span {
-    font-family: 'National 2 Condensed', 'Barlow Condensed', 'Arial Narrow', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.02em;
-    line-height: 1.1;
-    color: white;
-    text-transform: uppercase;
-  }
-
-  .logo-swash {
-    width: 28px; height: 22px;
-    border: 2px solid white;
-    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-    transform: rotate(-10deg) translateY(2px);
-    border-top-color: transparent;
-    margin-left: 2px;
-  }
-
-  .header-inner h1 {
-    /* ST primary font: National 2 Condensed Bold, fallback Barlow Condensed */
-    font-family: 'National 2 Condensed', 'Barlow Condensed', 'Arial Narrow', sans-serif;
-    font-weight: 700;
-    font-size: clamp(26px, 5vw, 38px);
-    letter-spacing: 0.01em;
-    line-height: 1.05;
-    color: white;
-    margin-bottom: 8px;
-  }
-
-  .header-meta {
-    font-family: 'Figtree', sans-serif;
-    font-size: 15px;
-    font-weight: 400;
-    color: rgba(255,255,255,0.78);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 0;
-  }
-
-  .header-meta .sep { margin: 0 8px; opacity: 0.5; }
-
-  /* ── CONTENT ──────────────────────────────────── */
-  .content {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 3rem;
-  }
-
-  /* ── LEGEND ───────────────────────────────────── */
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 20px;
-    margin-bottom: 2rem;
-    padding: 1rem 1.25rem;
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-
-  .leg { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); font-weight: 500; }
-  .leg-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
-
-  /* ── TABS ─────────────────────────────────────── */
-  .tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 1.75rem;
-    flex-wrap: wrap;
-  }
-
-  .tab {
-    padding: 8px 18px;
-    border-radius: 4px;
-    border: 1.5px solid var(--border);
-    font-size: 13px;
-    font-weight: 600;
-    font-family: 'Figtree', sans-serif;
-    cursor: pointer;
-    background: white;
-    color: var(--text-muted);
-    transition: all .15s ease;
-    text-decoration: none;
-    display: inline-block;
-    letter-spacing: 0.01em;
-  }
-
-  .tab:hover {
-    border-color: var(--navy);
-    color: var(--navy);
-    background: var(--blue-pale);
-  }
-
-  .tab.active {
-    background: var(--navy);
-    color: white;
-    border-color: var(--navy);
-  }
-
-  .tab:focus-visible {
-    outline: 3px solid var(--yellow);
-    outline-offset: 2px;
-  }
-
-  /* ── NOW / NEXT BANNER ────────────────────────── */
-  .now-next {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 1.75rem;
-    padding: 1rem 1.25rem;
-    background: var(--navy-dark);
-    border-radius: 8px;
-    color: white;
-  }
-
-  .now-next.visible { display: flex; }
-
-  .now-next-row {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    font-family: 'Figtree', sans-serif;
-    font-size: 14px;
-  }
-
-  .now-next-label {
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-
-  .now-next-row.is-live .now-next-label {
-    background: var(--coral);
-    color: white;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .now-next-row.is-next .now-next-label {
-    background: var(--teal-mid);
-    color: var(--navy-dark);
-  }
-
-  .live-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: white;
-    animation: pulse 1.6s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.35; }
-  }
-
-  .now-next-text { color: rgba(255,255,255,0.92); }
-  .now-next-text b { color: white; }
-
-  /* Highlight the matching row within the schedule itself */
-  .pill.is-live {
-    box-shadow: 0 0 0 2px var(--coral) inset;
-    position: relative;
-  }
-
-  .pill.is-live::before {
-    content: 'LIVE';
-    position: absolute;
-    top: -9px; right: 10px;
-    background: var(--coral);
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    padding: 2px 7px;
-    border-radius: 4px;
-  }
-
-  .pill.is-next {
-    box-shadow: 0 0 0 2px var(--teal-mid) inset;
-  }
-
-  /* ── DAY PANELS ───────────────────────────────── */
-  .day-panel { display: none; }
-  .day-panel.active { display: block; }
-
-  .day-heading {
-    font-family: 'National 2 Condensed', 'Barlow Condensed', 'Arial Narrow', sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-    letter-spacing: 0.02em;
-    color: var(--navy);
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    border-left: 4px solid var(--yellow);
-    padding-left: 10px;
-  }
-
-  /* ── SCHEDULE ROWS ────────────────────────────── */
-  .schedule { display: flex; flex-direction: column; gap: 5px; }
-
-  .row {
-    display: grid;
-    grid-template-columns: 68px 1fr;
-    gap: 0;
-    align-items: stretch;
-  }
-
-  .time {
-    font-family: 'Figtree', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--navy-dark);
-    text-align: right;
-    padding: 13px 12px 12px 0;
-    line-height: 1.2;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.02em;
-  }
-
-  .pill {
-    border-radius: 6px;
-    padding: 11px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .pill-name {
-    font-family: 'Figtree', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.35;
-  }
-
-  .pill-detail {
-    font-family: 'Figtree', sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 1.4;
-    opacity: 1;
-  }
-
-  /* Category colour treatments — all using ST brand palette */
-  .t-prog { background: var(--prog-bg); }
-  .t-prog .pill-name { color: var(--prog-text); }
-  .t-prog .pill-detail { color: var(--prog-accent); }
-
-  .t-log { background: var(--log-bg); }
-  .t-log .pill-name { color: var(--log-text); }
-  .t-log .pill-detail { color: var(--log-accent); }
-
-  .t-social { background: var(--social-bg); }
-  .t-social .pill-name { color: var(--social-text); }
-  .t-social .pill-detail { color: var(--social-accent); }
-
-  .t-break { background: var(--break-bg); }
-  .t-break .pill-name { color: var(--break-text); }
-  .t-break .pill-detail { color: var(--break-accent); }
-  
-/* ── HELP CARD ────────────────────────────────── */
-.help-card {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1.25rem 1.5rem;
-  background: white;
-  border: 1px solid var(--border);
-  border-left: 5px solid var(--teal);
-  border-radius: 8px;
+@font-face {
+font-family: 'National 2 Condensed';
+font-weight: 700;
+font-style: normal;
+src: local('National2Condensed-Bold'), local('National 2 Condensed Bold');
+/* If the font is not installed locally, Barlow Condensed will be used via the stack below */
 }
 
-.help-card h3 {
-  font-family: 'National 2 Condensed', 'Barlow Condensed', sans-serif;
-  color: var(--navy);
-  font-size: 20px;
-  margin-bottom: 0.75rem;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+/* ST Brand palette — exact hex values from brand guide */
+--navy:        #064891;
+--navy-dark:   #042f5e;
+--blue-mid:    #1f63ad;
+--blue-light:  #94c4f0;
+--blue-pale:   #c9e8ff;
+--teal:        #008f8a;
+--teal-mid:    #70ccc7;
+--teal-pale:   #a1d9d6;
+--coral:       #fa5e61;
+--coral-mid:   #ff9ea1;
+--coral-pale:  #ffcccf;
+--yellow:      #ffba3b;
+--yellow-pale: #ffdea3;
+--green:       #59a34a;
+--green-pale:  #c2e8bf;
+--purple:      #948cd4;
+--purple-pale: #e0d1f2;
+--grey-light:  #ececec;
+--grey-mid:    #c6c6c5;
+--white:       #ffffff;
+
+/* Semantic tokens */
+--bg:          #f5f9ff;  /* soft tint of blue-pale for page bg */
+--text:        #0a1a2f;
+--text-muted:  #3a5a7a;
+--border:      #c9e8ff;
+
+/* Category colours mapping to ST palette */
+--prog-bg:     var(--blue-pale);
+--prog-text: var(--navy-dark);
+--prog-accent: var(--navy-dark);
+--log-bg: var(--purple-pale);
+--log-text: var(--navy-dark);
+--log-accent: var(--navy-dark);
+--social-bg: var(--green-pale);
+--social-text: var(--navy-dark);
+--social-accent: var(--navy-dark);
+--break-bg: var(--grey-light);
+--break-text: var(--navy-dark);
+--break-accent: var(--navy-dark);
 }
 
-.help-card p {
-  margin: 0.5rem 0;
-  font-size: 14px;
-  line-height: 1.5;
+body {
+font-family: 'Figtree', system-ui, sans-serif;
+background: var(--bg);
+color: var(--text);
+min-height: 100vh;
+padding: 0;
 }
 
-.help-card a {
-  color: var(--navy);
-  font-weight: 600;
+/* ── HEADER ───────────────────────────────────── */
+.page-header {
+background: var(--navy);
+color: white;
+padding: 0;
+position: relative;
+overflow: hidden;
 }
 
-  /* ── FOOTER ───────────────────────────────────── */
-  .footer {
-    margin-top: 2.5rem;
-    padding: 1.25rem 1.5rem;
-    background: var(--navy);
-    border-radius: 8px;
-    font-family: 'Figtree', sans-serif;
-    font-size: 13px;
-    color: white;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
+/* Decorative ST-style starburst shape (top-right) */
+.page-header::before {
+content: '';
+position: absolute;
+top: -60px; right: -60px;
+width: 200px; height: 200px;
+background: var(--yellow);
+clip-path: polygon(50% 0%,55% 18%,72% 8%,65% 25%,84% 22%,73% 37%,92% 40%,78% 51%,92% 59%,76% 65%,84% 79%,67% 79%,65% 95%,52% 85%,44% 100%,40% 82%,24% 88%,27% 71%,10% 72%,18% 57%,4% 51%,17% 41%,6% 28%,23% 28%,18% 12%,34% 18%,35% 2%,48% 13%);
+opacity: 0.18;
+pointer-events: none;
+}
 
-  .footer a { color: white; text-decoration: underline; font-weight: 600; }
+/* Decorative chevron shape (bottom-left, ST upward-trajectory shape) */
+.page-header::after {
+content: '';
+position: absolute;
+bottom: -20px; left: 24px;
+width: 80px; height: 60px;
+background: var(--teal-mid);
+clip-path: polygon(50% 0%, 100% 60%, 78% 60%, 78% 100%, 22% 100%, 22% 60%, 0% 60%);
+opacity: 0.22;
+pointer-events: none;
+}
 
-  .footer a:hover { text-decoration: underline; }
+.header-inner {
+max-width: 760px;
+margin: 0 auto;
+padding: 2.25rem 1.5rem 2rem;
+position: relative;
+z-index: 1;
+}
 
-  /* ── RESPONSIVE ───────────────────────────────── */
-  @media (max-width: 520px) {
-    .tabs { flex-wrap: wrap; }
-    .row  { grid-template-columns: 52px 1fr; }
-    .header-inner h1 { font-size: 22px; }
-  }
+.logo-box {
+border: 2.5px solid white;
+padding: 5px 7px 3px;
+line-height: 1;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 0;
+flex-shrink: 0;
+}
 
-  /* ── PRINT ────────────────────────────────────── */
-  @media print {
-    .tabs { display: none; }
-    .day-panel { display: block !important; page-break-after: always; }
-    .day-panel:last-child { page-break-after: avoid; }
-    body { background: white; }
-    .page-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .pill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  }
+.logo-box span {
+font-family: 'National 2 Condensed', 'Barlow Condensed', 'Arial Narrow', sans-serif;
+font-weight: 700;
+font-size: 13px;
+letter-spacing: 0.02em;
+line-height: 1.1;
+color: white;
+text-transform: uppercase;
+}
+
+.logo-swash {
+width: 28px; height: 22px;
+border: 2px solid white;
+border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+transform: rotate(-10deg) translateY(2px);
+border-top-color: transparent;
+margin-left: 2px;
+}
+
+.header-inner h1 {
+/* ST primary font: National 2 Condensed Bold, fallback Barlow Condensed */
+font-family: 'National 2 Condensed', 'Barlow Condensed', 'Arial Narrow', sans-serif;
+font-weight: 700;
+font-size: clamp(26px, 5vw, 38px);
+letter-spacing: 0.01em;
+line-height: 1.05;
+color: white;
+margin-bottom: 8px;
+}
+
+.header-meta {
+font-family: 'Figtree', sans-serif;
+font-size: 15px;
+font-weight: 400;
+color: rgba(255,255,255,0.78);
+display: flex;
+flex-wrap: wrap;
+gap: 6px 0;
+}
+
+.header-meta .sep { margin: 0 8px; opacity: 0.5; }
+
+/* ── CONTENT ──────────────────────────────────── */
+.content {
+max-width: 760px;
+margin: 0 auto;
+padding: 2rem 1.5rem 3rem;
+}
+
+/* ── LEGEND ───────────────────────────────────── */
+.legend {
+display: flex;
+flex-wrap: wrap;
+gap: 10px 20px;
+margin-bottom: 2rem;
+padding: 1rem 1.25rem;
+background: white;
+border: 1px solid var(--border);
+border-radius: 8px;
+}
+
+.leg { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); font-weight: 500; }
+.leg-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── TABS ─────────────────────────────────────── */
+.tabs {
+display: flex;
+gap: 6px;
+margin-bottom: 1.75rem;
+flex-wrap: wrap;
+}
+
+.tab {
+padding: 8px 18px;
+border-radius: 4px;
+border: 1.5px solid var(--border);
+font-size: 13px;
+font-weight: 600;
+font-family: 'Figtree', sans-serif;
+cursor: pointer;
+background: white;
+color: var(--text-muted);
+transition: all .15s ease;
+text-decoration: none;
+display: inline-block;
+letter-spacing: 0.01em;
+}
+
+.tab:hover {
+border-color: var(--navy);
+color: var(--navy);
+background: var(--blue-pale);
+}
+
+.tab.active {
+background: var(--navy);
+color: white;
+border-color: var(--navy);
+}
+
+.tab:focus-visible {
+outline: 3px solid var(--yellow);
+outline-offset: 2px;
+}
+
+/* ── NOW / NEXT BANNER ────────────────────────── */
+.now-next {
+display: none;
+flex-direction: column;
+gap: 10px;
+margin-bottom: 1.75rem;
+padding: 1rem 1.25rem;
+background: var(--navy-dark);
+border-radius: 8px;
+color: white;
+}
+
+.now-next.visible { display: flex; }
+
+.now-next-row {
+display: flex;
+align-items: baseline;
+gap: 10px;
+font-family: 'Figtree', sans-serif;
+font-size: 14px;
+}
+
+.now-next-label {
+font-weight: 700;
+font-size: 11px;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+padding: 3px 8px;
+border-radius: 4px;
+flex-shrink: 0;
+}
+
+.now-next-row.is-live .now-next-label {
+background: var(--coral);
+color: white;
+display: inline-flex;
+align-items: center;
+gap: 5px;
+}
+
+.now-next-row.is-next .now-next-label {
+background: var(--teal-mid);
+color: var(--navy-dark);
+}
+
+.live-dot {
+width: 7px; height: 7px;
+border-radius: 50%;
+background: white;
+animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.35; }
+}
+
+.now-next-text { color: rgba(255,255,255,0.92); }
+.now-next-text b { color: white; }
+
+/* Highlight the matching row within the schedule itself */
+.pill.is-live {
+box-shadow: 0 0 0 2px var(--coral) inset;
+position: relative;
+}
+
+.pill.is-live::before {
+content: 'LIVE';
+position: absolute;
+top: -9px; right: 10px;
+background: var(--coral);
+color: white;
+font-size: 10px;
+font-weight: 700;
+letter-spacing: 0.05em;
+padding: 2px 7px;
+border-radius: 4px;
+}
+
+.pill.is-next {
+box-shadow: 0 0 0 2px var(--teal-mid) inset;
+}
+
+/* ── DAY PANELS ───────────────────────────────── */
+.day-panel { display: none; }
+.day-panel.active { display: block; }
+
+.day-heading {
+font-family: 'National 2 Condensed', 'Barlow Condensed', 'Arial Narrow', sans-serif;
+font-weight: 700;
+font-size: 18px;
+letter-spacing: 0.02em;
+color: var(--navy);
+margin-bottom: 1rem;
+text-transform: uppercase;
+border-left: 4px solid var(--yellow);
+padding-left: 10px;
+}
+
+/* ── SCHEDULE ROWS ────────────────────────────── */
+.schedule { display: flex; flex-direction: column; gap: 5px; }
+
+.row {
+display: grid;
+grid-template-columns: 68px 1fr;
+gap: 0;
+align-items: stretch;
+}
+
+.time {
+font-family: 'Figtree', sans-serif;
+font-size: 12px;
+font-weight: 600;
+color: var(--navy-dark);
+text-align: right;
+padding: 13px 12px 12px 0;
+line-height: 1.2;
+font-variant-numeric: tabular-nums;
+letter-spacing: 0.02em;
+}
+
+.pill {
+border-radius: 6px;
+padding: 11px 14px;
+display: flex;
+flex-direction: column;
+gap: 2px;
+}
+
+.pill-name {
+font-family: 'Figtree', sans-serif;
+font-size: 14px;
+font-weight: 600;
+line-height: 1.35;
+}
+
+.pill-detail {
+font-family: 'Figtree', sans-serif;
+font-size: 12px;
+font-weight: 400;
+line-height: 1.4;
+opacity: 1;
+}
+
+/* Category colour treatments — all using ST brand palette */
+.t-prog { background: var(--prog-bg); }
+.t-prog .pill-name { color: var(--prog-text); }
+.t-prog .pill-detail { color: var(--prog-accent); }
+
+.t-log { background: var(--log-bg); }
+.t-log .pill-name { color: var(--log-text); }
+.t-log .pill-detail { color: var(--log-accent); }
+
+.t-social { background: var(--social-bg); }
+.t-social .pill-name { color: var(--social-text); }
+.t-social .pill-detail { color: var(--social-accent); }
+
+.t-break { background: var(--break-bg); }
+.t-break .pill-name { color: var(--break-text); }
+.t-break .pill-detail { color: var(--break-accent); }
+
+/* ── FOOTER ───────────────────────────────────── */
+.footer {
+margin-top: 2.5rem;
+padding: 1.25rem 1.5rem;
+background: var(--navy);
+border-radius: 8px;
+font-family: 'Figtree', sans-serif;
+font-size: 13px;
+color: white;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+justify-content: space-between;
+gap: 8px;
+}
+
+.footer a { color: white; text-decoration: underline; font-weight: 600; }
+
+.footer a:hover { text-decoration: underline; }
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media (max-width: 520px) {
+.tabs { flex-wrap: wrap; }
+.row  { grid-template-columns: 52px 1fr; }
+.header-inner h1 { font-size: 22px; }
+}
+
+/* ── PRINT ────────────────────────────────────── */
+@media print {
+.tabs { display: none; }
+.day-panel { display: block !important; page-break-after: always; }
+.day-panel:last-child { page-break-after: avoid; }
+body { background: white; }
+.page-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.pill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
 
 
 /* Real Sutton Trust logo */
@@ -513,355 +484,333 @@
 <div class="day-heading">Day 3 — Employer Sessions &amp; Departure</div>
 <div class="schedule" id="schedule-d3"></div>
 </div>
-  <div class="help-card">
-  <h3>Questions or need help?</h3>
-
-  <p>Your <strong>Team Leader</strong> is always your first point of contact.</p>
-
-  <p>📧 <a href="mailto:pathways@suttontrust.com">pathways@suttontrust.com</a></p>
-
-  <p>🚨 Warwick Community Safety: <strong>024 7652 2222</strong></p>
-</div>
 <div class="footer">
-<span>Pathways to Law Conference 2026  ·  The Sutton Trust</span>
+<span>Pathways Residential Conference 2026  ·  The Sutton Trust</span>
+<span>Questions? Email <a href="mailto:pathways@suttontrust.com">pathways@suttontrust.com</a></span>
 </div>
 </div>
 <script>// Timetable data generated from PtL_Master_schedule_2026.xlsm
 const timetable = {
-  "d1": [
-    {
+"d1": [
+{
+      "time": "11:30",
       "time": "12:00",
-      "type": "log",
-      "name": "Arrival, Registration, and Lunch",
-      "detail": "Coach Park → Ramphal Foyer"
-    },
-    {
-      "time": "13:30",
-      "type": "prog",
-      "name": "Welcome to Conference - Timetable Runthrough",
-      "detail": "Ramphal Lecture Theatre"
-    },
-    {
-      "time": "14:00",
-      "type": "prog",
-      "name": "Making the Most of Conference with Louis Howell",
-      "detail": "Ramphal Lecture Theatre"
-    },
-    {
-      "time": "14:45",
-      "type": "prog",
-      "name": "Meeting Your Flat Group",
-      "detail": "Ramphal Classrooms"
-    },
-    {
-      "time": "15:30",
-      "type": "break",
-      "name": "Recharge and Networking Break",
-      "detail": "Ramphal Foyer"
-    },
-    {
-      "time": "15:45",
-      "type": "prog",
-      "name": "Commercial Awareness with Eversheds Sutherland",
-      "detail": "Ramphal Lecture Theatre"
-    },
-    {
-      "time": "16:30",
-      "type": "prog",
-      "name": "Wrap Up Day 1 - Using Pathways in Applications and Personal Statements",
-      "detail": "Ramphal Lecture Theatre"
-    },
-    {
-      "time": "17:00",
-      "type": "log",
-      "name": "Accommodation Check In",
-      "detail": "Luggage Room → Jack Martin"
-    },
-    {
-      "time": "18:30",
-      "type": "log",
-      "name": "Walk to Rootes Restaurant",
-      "detail": "Jack Martin → Rootes"
-    },
-    {
-      "time": "18:45",
-      "type": "social",
-      "name": "Buffet Dinner in Student Restaurant",
-      "detail": "Rootes Restaurant"
-    },
-    {
-      "time": "20:00",
-      "type": "social",
-      "name": "Quiz, Pool, Crafts, or Relax",
-      "detail": "Students' Union"
-    },
-    {
-      "time": "22:00",
-      "type": "log",
-      "name": "Return to Accommodation",
-      "detail": "Jack Martin"
-    }
-  ],
-  "d2": [
-    {
-      "time": "08:00",
-      "type": "log",
-      "name": "Wake Up Call",
-      "detail": "Jack Martin"
-    },
-    {
-      "time": "08:15",
-      "type": "log",
-      "name": "Walk to Rootes Restaurant",
-      "detail": "Jack Martin → Rootes"
-    },
-    {
-      "time": "08:30",
-      "type": "log",
-      "name": "Breakfast & Team Leader Check-In",
-      "detail": "Rootes Restaurant"
-    },
-    {
-      "time": "09:15",
-      "type": "log",
-      "name": "Walk to Ramphal",
-      "detail": "Rootes → Ramphal"
-    },
-    {
-      "time": "09:30",
-      "type": "prog",
-      "name": "Day 2 - Preparing for Debating, Networking, and Group Projects",
-      "detail": "Ramphal Lecture Theatre"
-    },
-    {
-      "time": "09:45",
-      "type": "prog",
-      "name": "Debating Workshop hosted by the English Speaking Union",
-      "detail": "Ramphal Classrooms"
-    },
-    {
-      "time": "10:45",
-      "type": "break",
-      "name": "Mid-Workshop Break with Drinks & Cake",
-      "detail": "Ramphal Foyer"
-    },
-    {
-      "time": "12:15",
-      "type": "log",
-      "name": "Buffet Networking Lunch",
-      "detail": "Ramphal Foyer"
-    },
-    {
-      "time": "13:00",
-      "type": "prog",
-      "name": "Developing Networking Skills with the Speakers Trust",
-      "detail": "Ramphal Lecture Theatre"
-    },
-    {
-      "time": "14:00",
-      "type": "prog",
-      "name": "Solicitor Group Project with Tozers LLP",
-      "detail": "Ramphal Lecture Theatre"
-       },
-    {
-      "time": "16:30",
-      "type": "prog",
-      "name": "Group Project Presentations, Wrap, and Reflect",
-      "detail": "Lecture Theatre"
-    },
-    {
-      "time": "16:45",
-      "type": "log",
-      "name": "Back to Accommodation to Change Before Sport",
-      "detail": "Ramphal → Jack Martin"
-    },
-    {
-      "time": "17:00",
-      "type": "social",
-      "name": "Sports & Craft Activities",
-      "detail": "Jack Martin / Cryfield Sport Pavilion"
-    },
-    {
-      "time": "18:30",
-      "type": "social",
-      "name": "Back to Accommodation Before Dinner",
-      "detail": "Jack Martin"
-    },
-    {
-      "time": "19:00",
-      "type": "social",
-      "name": "BBQ Dinner",
-      "detail": "Rootes"
-    },
-    {
-      "time": "20:00",
-      "type": "social",
-      "name": "Karaoke, Pool, or Scrapbooking",
-      "detail": "Student Union"
-    },
-    {
-      "time": "22:00",
-      "type": "log",
-      "name": "Return to Accommodation for Curfew",
-      "detail": "Jack Martin"
-    }
-  ],
-  "d3": [
-    {
-      "time": "07:45",
-      "type": "log",
-      "name": "Wake Up Call – Last Day!",
-      "detail": "Jack Martin"
-    },
-    {
-      "time": "08:00",
-      "type": "log",
-      "name": "Walk to Ramphal for Bag Drop",
-      "detail": "Ramphal"
-    },
-    {
-      "time": "08:15",
-      "type": "log",
-      "name": "Walk to Rootes Restaurant for Breakfast",
-      "detail": "Rootes Restaurant"
-     },
-    {
-      "time": "09:15",
-      "type": "log",
-      "name": "Head to Ramphal for Final Day!",
-      "detail": "Ramphal"
-    },
-    {
-      "time": "09:30",
-      "type": "prog",
-      "name": "Final Preparation and Timetable Run Through",
-      "detail": "Ramphal Lecture Theatre"
-    },
-    {
-      "time": "09:45",
-      "type": "prog",
-      "name": "Meet the Professionals Panel with Sutton Trust Alumni",
-      "detail": "Ramphal Lecture Theatre"
-    },
-    {
-      "time": "10:45",
-      "type": "break",
-      "name": "Networking with Panellists",
-      "detail": "Ramphal Foyer"
-    },
-    {
-      "time": "11:00",
-      "type": "prog",
-      "name": "Industry spotlight session #1 - Check Your Email for a list of Employers!",
-      "detail": "Ramphal Classrooms"
-    },
-    {
-      "time": "11:40",
-      "type": "break",
-      "name": "Room Swap before Spotlight Session #2",
-      "detail": ""
-    },
-    {
-      "time": "11:45",
-      "type": "prog",
-      "name": "Industry spotlight session #2 - Check Your Email for a list of Employers!",
-      "detail": "Ramphal Classrooms"
-    },
-    {
-      "time": "12:20",
-      "type": "log",
-      "name": "Lunch & Group Photo",
-      "detail": "Ramphal Foyer"
-    },
-    {
-      "time": "13:00",
-      "type": "prog",
-      "name": "Careers Speed Networking",
-      "detail": "Learning Grid (ground floor, Rootes)"
-    },
-    {
-      "time": "13:50",
-      "type": "prog",
-      "name": "Goodbye session",
-      "detail": "Ramphal Lecture Theatre"
-    },
-    {
-      "time": "14:00",
-      "type": "prog",
-      "name": "Reflection, Evaluation & Certificates",
-      "detail": "LSE: Lecture Theatre · Warwick: 1.03 · Leeds: 1.04 · Exeter: 1.13 · LSE: 1.15 · QMUL: 2.41 · Cardiff: 0.14"
-    },
-    {
-      "time": "14:40",
-      "type": "log",
-      "name": "Depart on Coaches",
-      "detail": "Ramphal 0.12"
-    }
-  ]
+"type": "log",
+"name": "Arrival, Registration, and Lunch",
+"detail": "Coach Park → Ramphal Foyer"
+},
+{
+"time": "13:30",
+"type": "prog",
+"name": "Welcome to Conference - Timetable Runthrough",
+"detail": "Ramphal Lecture Theatre"
+},
+{
+"time": "14:00",
+"type": "prog",
+"name": "Making the Most of Conference with Louis Howell",
+"detail": "Ramphal Lecture Theatre"
+},
+{
+"time": "14:45",
+"type": "prog",
+"name": "Meeting Your Flat Group",
+"detail": "Ramphal Classrooms"
+},
+{
+"time": "15:30",
+"type": "break",
+"name": "Recharge and Networking Break",
+"detail": "Ramphal Foyer"
+},
+{
+"time": "15:45",
+"type": "prog",
+"name": "Commercial Awareness with Eversheds Sutherland",
+"detail": "Ramphal Lecture Theatre"
+},
+{
+"time": "16:30",
+"type": "prog",
+"name": "Wrap Up Day 1 - Using Pathways in Applications and Personal Statements",
+"detail": "Ramphal Lecture Theatre"
+},
+{
+"time": "17:00",
+"type": "log",
+"name": "Accommodation Check In",
+"detail": "Luggage Room → Jack Martin"
+},
+{
+"time": "18:30",
+"type": "log",
+"name": "Walk to Rootes Restaurant",
+"detail": "Jack Martin → Rootes"
+},
+{
+"time": "18:45",
+"type": "social",
+"name": "Buffet Dinner in Student Restaurant",
+"detail": "Rootes Restaurant"
+},
+{
+"time": "20:00",
+"type": "social",
+"name": "Quiz, Pool, Crafts, or Relax",
+"detail": "Students' Union"
+},
+{
+"time": "22:00",
+"type": "log",
+"name": "Return to Accommodation",
+"detail": "Jack Martin"
+}
+],
+"d2": [
+{
+"time": "08:00",
+"type": "log",
+"name": "Wake Up Call",
+"detail": "Jack Martin"
+},
+{
+"time": "08:15",
+"type": "log",
+"name": "Walk to Rootes Restaurant",
+"detail": "Jack Martin → Rootes"
+},
+{
+"time": "08:30",
+"type": "log",
+"name": "Breakfast & Team Leader Check-In",
+"detail": "Rootes Restaurant"
+},
+{
+"time": "09:15",
+"type": "log",
+"name": "Walk to Ramphal",
+"detail": "Rootes → Ramphal"
+},
+{
+"time": "09:30",
+"type": "prog",
+"name": "Day 2 - Preparing for Debating, Networking, and Group Projects",
+"detail": "Ramphal Lecture Theatre"
+},
+{
+"time": "09:45",
+"type": "prog",
+"name": "Debating Workshop hosted by the English Speaking Union",
+"detail": "Ramphal Classrooms"
+},
+{
+"time": "10:45",
+"type": "break",
+"name": "Mid-Workshop Break with Drinks & Cake",
+"detail": "Ramphal Foyer"
+},
+{
+"time": "12:15",
+"type": "log",
+"name": "Buffet Networking Lunch",
+"detail": "Ramphal Foyer"
+},
+{
+"time": "13:00",
+"type": "prog",
+"name": "Developing Networking Skills with the Speakers Trust",
+"detail": "Ramphal Lecture Theatre"
+},
+{
+"time": "14:00",
+"type": "prog",
+"name": "Solicitor Group Project with Tozers LLP",
+"detail": "Ramphal Lecture Theatre"
+},
+{
+"time": "16:30",
+"type": "prog",
+"name": "Group Project Presentations, Wrap, and Reflect",
+"detail": "Lecture Theatre"
+},
+{
+"time": "16:45",
+"type": "log",
+"name": "Back to Accommodation to Change Before Sport",
+"detail": "Ramphal → Jack Martin"
+},
+{
+"time": "17:00",
+"type": "social",
+"name": "Sports & Craft Activities",
+"detail": "Jack Martin / Cryfield Sport Pavilion"
+},
+{
+"time": "18:30",
+"type": "social",
+"name": "Back to Accommodation Before Dinner",
+"detail": "Jack Martin"
+},
+{
+"time": "19:00",
+"type": "social",
+"name": "BBQ Dinner",
+"detail": "Rootes"
+},
+{
+"time": "20:00",
+"type": "social",
+"name": "Karaoke, Pool, or Scrapbooking",
+"detail": "Student Union"
+},
+{
+"time": "22:00",
+"type": "log",
+"name": "Return to Accommodation for Curfew",
+"detail": "Jack Martin"
+}
+],
+"d3": [
+{
+"time": "07:45",
+"type": "log",
+"name": "Wake Up Call – Last Day!",
+"detail": "Jack Martin"
+},
+{
+"time": "08:00",
+"type": "log",
+"name": "Walk to Ramphal for Bag Drop",
+"detail": "Ramphal"
+},
+{
+"time": "08:15",
+"type": "log",
+"name": "Walk to Rootes Restaurant for Breakfast",
+"detail": "Rootes Restaurant"
+},
+{
+"time": "09:15",
+"type": "log",
+"name": "Head to Ramphal for Final Day!",
+"detail": "Ramphal"
+},
+{
+"time": "09:30",
+"type": "prog",
+"name": "Final Preparation and Timetable Run Through",
+"detail": "Ramphal Lecture Theatre"
+},
+{
+"time": "09:45",
+"type": "prog",
+"name": "Meet the Professionals Panel with Sutton Trust Alumni",
+"detail": "Ramphal Lecture Theatre"
+},
+{
+"time": "10:45",
+"type": "break",
+"name": "Networking with Panellists",
+"detail": "Ramphal Foyer"
+},
+{
+"time": "11:00",
+"type": "prog",
+"name": "Industry spotlight session #1 - Check Your Email for a list of Employers!",
+"detail": "Ramphal Classrooms"
+},
+{
+"time": "11:40",
+"type": "break",
+"name": "Room Swap before Spotlight Session #2",
+"detail": ""
+},
+{
+"time": "11:45",
+"type": "prog",
+"name": "Industry spotlight session #2 - Check Your Email for a list of Employers!",
+"detail": "Ramphal Classrooms"
+},
+{
+"time": "12:20",
+"type": "log",
+"name": "Lunch & Group Photo",
+"detail": "Ramphal Foyer"
+},
+{
+"time": "13:00",
+"type": "prog",
+"name": "Careers Speed Networking",
+"detail": "Learning Grid (ground floor, Rootes)"
+},
+{
+"time": "13:50",
+"type": "prog",
+"name": "Goodbye session",
+"detail": "Ramphal Lecture Theatre"
+},
+{
+"time": "14:00",
+"type": "prog",
+"name": "Reflection, Evaluation & Certificates",
+"detail": "LSE: Lecture Theatre · Warwick: 1.03 · Leeds: 1.04 · Exeter: 1.13 · LSE: 1.15 · QMUL: 2.41 · Cardiff: 0.14"
+},
+{
+"time": "14:40",
+"type": "log",
+"name": "Depart on Coaches",
+"detail": "Ramphal 0.12"
+}
+]
 };
 
 function renderDay(dayId){
-  const el = document.getElementById(`schedule-${dayId}`);
-  if(!el) return;
-  el.innerHTML = (timetable[dayId]||[]).map((item, i) => `
-    <div class="row">
-      <div class="time">${item.time}</div>
-      <div class="pill t-${item.type}" id="pill-${dayId}-${i}">
-        <div class="pill-name">${item.name}</div>
-        <div class="pill-detail">${item.detail||''}</div>
-      </div>
-    </div>
-  `).join('');
+const el = document.getElementById(`schedule-${dayId}`);
+if(!el) return;
+el.innerHTML = (timetable[dayId]||[]).map((item, i) => `
+   <div class="row">
+     <div class="time">${item.time}</div>
+     <div class="pill t-${item.type}" id="pill-${dayId}-${i}">
+       <div class="pill-name">${item.name}</div>
+       <div class="pill-detail">${item.detail||''}</div>
+     </div>
+   </div>
+ `).join('');
 }
 
 function show(id, tab){
-  document.querySelectorAll('.day-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>{
-    t.classList.remove('active');
-    t.setAttribute('aria-selected','false');
-    t.tabIndex = -1;
-  });
-  document.getElementById(id).classList.add('active');
-  tab.classList.add('active');
-  tab.setAttribute('aria-selected','true');
-  tab.tabIndex = 0;
+document.querySelectorAll('.day-panel').forEach(p=>p.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(t=>{
+t.classList.remove('active');
+t.setAttribute('aria-selected','false');
+t.tabIndex = -1;
+});
+document.getElementById(id).classList.add('active');
+tab.classList.add('active');
+tab.setAttribute('aria-selected','true');
+tab.tabIndex = 0;
 }
 
 ['d1','d2','d3'].forEach(renderDay);
 
-// Automatically open today's timetable
-(function showToday() {
-  const today = new Date().toISOString().split('T')[0];
-
-  for (const [dayId, date] of Object.entries(DAY_DATES)) {
-    if (today === date) {
-      const button = document.getElementById(`tabbtn-${dayId}`);
-      if (button) {
-        show(dayId, button);
-      }
-      break;
-    }
-  }
-})();
-  
 // ── Keyboard navigation for tabs (standard ARIA tab pattern: ←/→/Home/End) ──
 (function initTabKeyboardNav(){
-  const tabs = Array.from(document.querySelectorAll('.tab'));
-  tabs.forEach((tabEl, i) => {
-    tabEl.addEventListener('keydown', (e) => {
-      let newIndex = null;
-      if (e.key === 'ArrowRight') newIndex = (i + 1) % tabs.length;
-      else if (e.key === 'ArrowLeft') newIndex = (i - 1 + tabs.length) % tabs.length;
-      else if (e.key === 'Home') newIndex = 0;
-      else if (e.key === 'End') newIndex = tabs.length - 1;
-      if (newIndex !== null) {
-        e.preventDefault();
-        const target = tabs[newIndex];
-        target.focus();
-        target.click();
-      }
-    });
-  });
+const tabs = Array.from(document.querySelectorAll('.tab'));
+tabs.forEach((tabEl, i) => {
+tabEl.addEventListener('keydown', (e) => {
+let newIndex = null;
+if (e.key === 'ArrowRight') newIndex = (i + 1) % tabs.length;
+else if (e.key === 'ArrowLeft') newIndex = (i - 1 + tabs.length) % tabs.length;
+else if (e.key === 'Home') newIndex = 0;
+else if (e.key === 'End') newIndex = tabs.length - 1;
+if (newIndex !== null) {
+e.preventDefault();
+const target = tabs[newIndex];
+target.focus();
+target.click();
+}
+});
+});
 })();
 
 // ── "Happening now" / "Up next" ──────────────────────────────────────────
@@ -869,68 +818,68 @@ function show(id, tab){
 // header/tab date mismatch above is fixed. Everything below runs off the
 // visitor's own clock — no manual updates needed after this.
 const DAY_DATES = {
-  d1: '2026-08-04',
-  d2: '2026-08-05',
-  d3: '2026-08-06'
+d1: '2026-08-04',
+d2: '2026-08-05',
+d3: '2026-08-06'
 };
 
 function sessionsWithTimes(dayId){
-  const dateStr = DAY_DATES[dayId];
-  const items = timetable[dayId] || [];
-  return items.map((item, i) => {
-    const [h, m] = item.time.split(':').map(Number);
-    const start = new Date(`${dateStr}T00:00:00`);
-    start.setHours(h, m, 0, 0);
-    return { ...item, index: i, dayId, start };
-  });
+const dateStr = DAY_DATES[dayId];
+const items = timetable[dayId] || [];
+return items.map((item, i) => {
+const [h, m] = item.time.split(':').map(Number);
+const start = new Date(`${dateStr}T00:00:00`);
+start.setHours(h, m, 0, 0);
+return { ...item, index: i, dayId, start };
+});
 }
 
 function allSessionsSorted(){
-  return ['d1','d2','d3'].flatMap(sessionsWithTimes).sort((a,b)=>a.start-b.start);
+return ['d1','d2','d3'].flatMap(sessionsWithTimes).sort((a,b)=>a.start-b.start);
 }
 
 function updateNowNext(){
-  const all = allSessionsSorted();
-  const now = new Date();
-  const banner = document.getElementById('now-next-banner');
+const all = allSessionsSorted();
+const now = new Date();
+const banner = document.getElementById('now-next-banner');
 
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('is-live','is-next'));
+document.querySelectorAll('.pill').forEach(p => p.classList.remove('is-live','is-next'));
 
-  let current = null, next = null;
-  for (let i = 0; i < all.length; i++) {
-    const item = all[i];
-    const nextItem = all[i+1];
-    const itemEnd = nextItem ? nextItem.start : new Date(item.start.getTime() + 60*60*1000);
-    if (now >= item.start && now < itemEnd) current = item;
-    if (!next && item.start > now) next = item;
-  }
+let current = null, next = null;
+for (let i = 0; i < all.length; i++) {
+const item = all[i];
+const nextItem = all[i+1];
+const itemEnd = nextItem ? nextItem.start : new Date(item.start.getTime() + 60*60*1000);
+if (now >= item.start && now < itemEnd) current = item;
+if (!next && item.start > now) next = item;
+}
 
-  if (!current && !next) {
-    banner.classList.remove('visible');
-    banner.innerHTML = '';
-    return;
-  }
+if (!current && !next) {
+banner.classList.remove('visible');
+banner.innerHTML = '';
+return;
+}
 
-  let html = '';
-  if (current) {
-    html += `<div class="now-next-row is-live">
-      <span class="now-next-label"><span class="live-dot"></span>Now</span>
-      <span class="now-next-text"><b>${current.name}</b> — ${current.detail||''}</span>
-    </div>`;
-    const el = document.getElementById(`pill-${current.dayId}-${current.index}`);
-    if (el) el.classList.add('is-live');
-  }
-  if (next) {
-    html += `<div class="now-next-row is-next">
-      <span class="now-next-label">Next</span>
-      <span class="now-next-text"><b>${next.name}</b> at ${next.time} — ${next.detail||''}</span>
-    </div>`;
-    const el = document.getElementById(`pill-${next.dayId}-${next.index}`);
-    if (el) el.classList.add('is-next');
-  }
+let html = '';
+if (current) {
+html += `<div class="now-next-row is-live">
+     <span class="now-next-label"><span class="live-dot"></span>Now</span>
+     <span class="now-next-text"><b>${current.name}</b> — ${current.detail||''}</span>
+   </div>`;
+const el = document.getElementById(`pill-${current.dayId}-${current.index}`);
+if (el) el.classList.add('is-live');
+}
+if (next) {
+html += `<div class="now-next-row is-next">
+     <span class="now-next-label">Next</span>
+     <span class="now-next-text"><b>${next.name}</b> at ${next.time} — ${next.detail||''}</span>
+   </div>`;
+const el = document.getElementById(`pill-${next.dayId}-${next.index}`);
+if (el) el.classList.add('is-next');
+}
 
-  banner.innerHTML = html;
-  banner.classList.add('visible');
+banner.innerHTML = html;
+banner.classList.add('visible');
 }
 
 updateNowNext();
