@@ -232,6 +232,94 @@
     border-color: var(--navy);
   }
 
+  .tab:focus-visible {
+    outline: 3px solid var(--yellow);
+    outline-offset: 2px;
+  }
+
+  /* ── NOW / NEXT BANNER ────────────────────────── */
+  .now-next {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1.75rem;
+    padding: 1rem 1.25rem;
+    background: var(--navy-dark);
+    border-radius: 8px;
+    color: white;
+  }
+
+  .now-next.visible { display: flex; }
+
+  .now-next-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 14px;
+  }
+
+  .now-next-label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .now-next-row.is-live .now-next-label {
+    background: var(--coral);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .now-next-row.is-next .now-next-label {
+    background: var(--teal-mid);
+    color: var(--navy-dark);
+  }
+
+  .live-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: white;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  .now-next-text { color: rgba(255,255,255,0.92); }
+  .now-next-text b { color: white; }
+
+  /* Highlight the matching row within the schedule itself */
+  .pill.is-live {
+    box-shadow: 0 0 0 2px var(--coral) inset;
+    position: relative;
+  }
+
+  .pill.is-live::before {
+    content: 'LIVE';
+    position: absolute;
+    top: -9px; right: 10px;
+    background: var(--coral);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  .pill.is-next {
+    box-shadow: 0 0 0 2px var(--teal-mid) inset;
+  }
+
   /* ── DAY PANELS ───────────────────────────────── */
   .day-panel { display: none; }
   .day-panel.active { display: block; }
@@ -375,23 +463,24 @@
 <div class="leg"><div class="leg-dot" style="background:#59a34a"></div>Social &amp; evening</div>
 <div class="leg"><div class="leg-dot" style="background:#c6c6c5"></div>Break</div>
 </div>
-<div class="tabs">
-<span class="tab active" onclick="show('d1',this)">Tuesday 7 Jul — Day 1</span>
-<span class="tab" onclick="show('d2',this)">Wednesday 8 Jul — Day 2</span>
-<span class="tab" onclick="show('d3',this)">Thursday 9 Jul — Day 3</span>
+<div class="now-next" id="now-next-banner"></div>
+<div class="tabs" role="tablist" aria-label="Conference day">
+<button class="tab active" role="tab" id="tabbtn-d1" aria-selected="true" aria-controls="d1" tabindex="0" onclick="show('d1',this)">Tuesday 4 Aug — Day 1</button>
+<button class="tab" role="tab" id="tabbtn-d2" aria-selected="false" aria-controls="d2" tabindex="-1" onclick="show('d2',this)">Wednesday 5 Aug — Day 2</button>
+<button class="tab" role="tab" id="tabbtn-d3" aria-selected="false" aria-controls="d3" tabindex="-1" onclick="show('d3',this)">Thursday 6 Aug — Day 3</button>
 </div>
 <!-- DAY 1 -->
-<div class="day-panel active" id="d1">
+<div class="day-panel active" id="d1" role="tabpanel" aria-labelledby="tabbtn-d1" tabindex="0">
 <div class="day-heading">Day 1 — Arrival &amp; Welcome</div>
 <div class="schedule" id="schedule-d1"></div>
 </div>
 <!-- DAY 2 -->
-<div class="day-panel" id="d2">
+<div class="day-panel" id="d2" role="tabpanel" aria-labelledby="tabbtn-d2" tabindex="0">
 <div class="day-heading">Day 2 — Public Speaking &amp; Group Project</div>
 <div class="schedule" id="schedule-d2"></div>
 </div>
 <!-- DAY 3 -->
-<div class="day-panel" id="d3">
+<div class="day-panel" id="d3" role="tabpanel" aria-labelledby="tabbtn-d3" tabindex="0">
 <div class="day-heading">Day 3 — Employer Sessions &amp; Departure</div>
 <div class="schedule" id="schedule-d3"></div>
 </div>
@@ -442,7 +531,7 @@ const timetable = {
     {
       "time": "16:30",
       "type": "prog",
-      "name": "Wrap Up Day 1 - Making the Most of Conference",
+      "name": "Wrap Up Day 1 - Using Pathways in Applications and Personal Statements",
       "detail": "Ramphal Lecture Theatre"
     },
     {
@@ -576,7 +665,7 @@ const timetable = {
     {
       "time": "22:00",
       "type": "log",
-      "name": "Return to Accommodation for Curger",
+      "name": "Return to Accommodation for Curfew",
       "detail": "Jack Martin"
     }
   ],
@@ -677,10 +766,10 @@ const timetable = {
 function renderDay(dayId){
   const el = document.getElementById(`schedule-${dayId}`);
   if(!el) return;
-  el.innerHTML = (timetable[dayId]||[]).map(item => `
+  el.innerHTML = (timetable[dayId]||[]).map((item, i) => `
     <div class="row">
       <div class="time">${item.time}</div>
-      <div class="pill t-${item.type}">
+      <div class="pill t-${item.type}" id="pill-${dayId}-${i}">
         <div class="pill-name">${item.name}</div>
         <div class="pill-detail">${item.detail||''}</div>
       </div>
@@ -690,12 +779,110 @@ function renderDay(dayId){
 
 function show(id, tab){
   document.querySelectorAll('.day-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.classList.remove('active');
+    t.setAttribute('aria-selected','false');
+    t.tabIndex = -1;
+  });
   document.getElementById(id).classList.add('active');
   tab.classList.add('active');
+  tab.setAttribute('aria-selected','true');
+  tab.tabIndex = 0;
 }
 
 ['d1','d2','d3'].forEach(renderDay);
+
+// ── Keyboard navigation for tabs (standard ARIA tab pattern: ←/→/Home/End) ──
+(function initTabKeyboardNav(){
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  tabs.forEach((tabEl, i) => {
+    tabEl.addEventListener('keydown', (e) => {
+      let newIndex = null;
+      if (e.key === 'ArrowRight') newIndex = (i + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft') newIndex = (i - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') newIndex = 0;
+      else if (e.key === 'End') newIndex = tabs.length - 1;
+      if (newIndex !== null) {
+        e.preventDefault();
+        const target = tabs[newIndex];
+        target.focus();
+        target.click();
+      }
+    });
+  });
+})();
+
+// ── "Happening now" / "Up next" ──────────────────────────────────────────
+// Set these to the REAL calendar dates for each day (YYYY-MM-DD) once the
+// header/tab date mismatch above is fixed. Everything below runs off the
+// visitor's own clock — no manual updates needed after this.
+const DAY_DATES = {
+  d1: '2026-08-04',
+  d2: '2026-08-05',
+  d3: '2026-08-06'
+};
+
+function sessionsWithTimes(dayId){
+  const dateStr = DAY_DATES[dayId];
+  const items = timetable[dayId] || [];
+  return items.map((item, i) => {
+    const [h, m] = item.time.split(':').map(Number);
+    const start = new Date(`${dateStr}T00:00:00`);
+    start.setHours(h, m, 0, 0);
+    return { ...item, index: i, dayId, start };
+  });
+}
+
+function allSessionsSorted(){
+  return ['d1','d2','d3'].flatMap(sessionsWithTimes).sort((a,b)=>a.start-b.start);
+}
+
+function updateNowNext(){
+  const all = allSessionsSorted();
+  const now = new Date();
+  const banner = document.getElementById('now-next-banner');
+
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('is-live','is-next'));
+
+  let current = null, next = null;
+  for (let i = 0; i < all.length; i++) {
+    const item = all[i];
+    const nextItem = all[i+1];
+    const itemEnd = nextItem ? nextItem.start : new Date(item.start.getTime() + 60*60*1000);
+    if (now >= item.start && now < itemEnd) current = item;
+    if (!next && item.start > now) next = item;
+  }
+
+  if (!current && !next) {
+    banner.classList.remove('visible');
+    banner.innerHTML = '';
+    return;
+  }
+
+  let html = '';
+  if (current) {
+    html += `<div class="now-next-row is-live">
+      <span class="now-next-label"><span class="live-dot"></span>Now</span>
+      <span class="now-next-text"><b>${current.name}</b> — ${current.detail||''}</span>
+    </div>`;
+    const el = document.getElementById(`pill-${current.dayId}-${current.index}`);
+    if (el) el.classList.add('is-live');
+  }
+  if (next) {
+    html += `<div class="now-next-row is-next">
+      <span class="now-next-label">Next</span>
+      <span class="now-next-text"><b>${next.name}</b> at ${next.time} — ${next.detail||''}</span>
+    </div>`;
+    const el = document.getElementById(`pill-${next.dayId}-${next.index}`);
+    if (el) el.classList.add('is-next');
+  }
+
+  banner.innerHTML = html;
+  banner.classList.add('visible');
+}
+
+updateNowNext();
+setInterval(updateNowNext, 30000);
 </script>
 </body>
 </html>
